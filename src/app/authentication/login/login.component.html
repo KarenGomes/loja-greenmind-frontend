@@ -1,1 +1,35 @@
-<p>login works!</p>
+<div class="container">
+
+  <div class="form">
+    <h1>Seja-bem vindo!</h1>
+    <h2>Adicione login e senha nos campos abaixo:</h2>
+
+    <form [formGroup]="form" class="form-login">
+
+      <!-- login -->
+      <mat-form-field>
+        <mat-label>Login:</mat-label>
+        <input
+          matInput
+          formControlName="email"
+        >
+      </mat-form-field>
+
+      <!-- senha  -->
+      <mat-form-field>
+        <mat-label>Senha:</mat-label>
+        <input
+          matInput
+          formControlName="senha"
+          >
+      </mat-form-field>
+    </form>
+
+    <button mat-flat-button (click)="submitForm()">Login</button>
+  </div>
+
+  <!-- imagem -->
+  <div class="img-login">
+    <img src="../../../assets/images/login-img.png" alt="Garota tomando sorvete">
+  </div>
+</div>

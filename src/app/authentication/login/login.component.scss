@@ -1,0 +1,33 @@
+@import '../../../assets/styles/responsive.scss';
+
+.container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form{
+  padding-left: 15%;
+  @include respond-to('medium'){
+    padding-left: 20%;
+  }
+
+}
+
+.form-login{
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.img-login {
+  left: 0;
+  @include respond-to('small'){
+    display: none;
+  }
+
+  @include respond-to('tablet'){
+    display: none;
+  }
+
+}
