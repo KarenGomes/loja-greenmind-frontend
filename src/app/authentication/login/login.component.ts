@@ -8,19 +8,22 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatButtonModule} from '@angular/material/button';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms'
+import { AuthenticationService } from '../../core/services/authentication.service';
+import { HttpClientModule } from '@angular/common/http';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [MatFormFieldModule, ReactiveFormsModule, MatInputModule, MatSelectModule, MatIconModule, MatDividerModule, MatButtonModule],
+  imports: [MatFormFieldModule, ReactiveFormsModule, HttpClientModule, MatInputModule, MatSelectModule, MatIconModule, MatDividerModule, MatButtonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: './login.component.scss',
+  providers: [ AuthenticationService]
 })
 export class LoginComponent implements OnInit {
 
   form!: FormGroup;
 
-  constructor(private route: Router, private formBuilder: FormBuilder){
+  constructor(private route: Router, private formBuilder: FormBuilder, private AuthService: AuthenticationService){
   }
 
   ngOnInit(): void {
@@ -38,7 +41,7 @@ export class LoginComponent implements OnInit {
 
   submitForm() {
     if(this.form.valid){
-      console.log(this.form.value)
+      this.AuthService.doLogin(this.form.value);
       this.route.navigate(["/home"]);
     }else {
       console.log(`formulário inválido`)
