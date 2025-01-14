@@ -28,6 +28,8 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.AuthService.logout(); //limpa localstorage
+
     this.form = this.formBuilder.group({
       email: [null, [
               Validators.required,
