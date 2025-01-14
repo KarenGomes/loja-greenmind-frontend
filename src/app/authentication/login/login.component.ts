@@ -10,10 +10,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms'
 import { AuthenticationService } from '../../core/services/authentication.service';
 import { HttpClientModule } from '@angular/common/http';
+import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [MatFormFieldModule, ReactiveFormsModule, HttpClientModule, MatInputModule, MatSelectModule, MatIconModule, MatDividerModule, MatButtonModule],
+  imports: [MatSnackBarModule, MatFormFieldModule, ReactiveFormsModule, HttpClientModule, MatInputModule, MatSelectModule, MatIconModule, MatDividerModule, MatButtonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
@@ -23,7 +24,7 @@ export class LoginComponent implements OnInit {
 
   form!: FormGroup;
 
-  constructor(private route: Router, private formBuilder: FormBuilder, private AuthService: AuthenticationService){
+  constructor(private route: Router, private formBuilder: FormBuilder, private AuthService: AuthenticationService,private snackBar: MatSnackBar ){
   }
 
   ngOnInit(): void {
@@ -41,8 +42,16 @@ export class LoginComponent implements OnInit {
 
   submitForm() {
     if(this.form.valid){
-      this.AuthService.doLogin(this.form.value);
-      this.route.navigate(["/home"]);
+      this.AuthService.login(this.form.value).subscribe({
+        next: () => {
+          this.route.navigate(["/home"]).then(() => window.location.reload());
+        },
+        error: (e) => {
+          this.snackBar.open('Erro ao realizar login', e);
+          console.error(`erro ao efetuar login, ${e}`);
+        }
+      })
+
     }else {
       console.log(`formulário inválido`)
     }
